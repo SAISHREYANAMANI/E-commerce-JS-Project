@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="index.css" />
+  <link
+  href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+  rel="stylesheet"
+/>
+  <style>
+    body {
+      background-color: #E9F1FA;
+    }
+    .boxstyle {
+      text-align: center;
+      padding: 1%;
+      margin: 15px;
+      background-color: transparent;
+    }
+    #image {
+      height: 150px;
+      width: 100%;
+      border-radius: 10px;
+    }
+    .product-buy {
+      width: 100px;
+      height: 50px;
+      font-size: 15px;
+      padding: 1px;
+      margin-left: 35px;
+      margin-top: 0% !important;
+      background-color: #00ABE4;
+      color: white;
+      border-radius: 15px;
+      border: 1px solid white;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    .product-buy:active {
+      background-color: white;
+      color: #00ABE4
+    }
+    .button-settings {
+        display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      margin-top: 10px;
+      padding: 5px;
+    }
+
+    #logout{
+      width: 100px;
+      height: 50px;
+      font-size: 15px;
+      padding: 5px;
+      margin-left: 35px;
+      margin-top: 0% !important;
+      background-color: #00ABE4;
+      color: white;
+      border-radius: 15px;
+      /* border: 1px solid white; */
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    .wrapper{
+  height: 120px;
+  min-width: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+.wrapper span{
+  width: 100%;
+  text-align: center;
+  font-size: 55px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+.wrapper span.num{
+  font-size: 50px;
+  border-right: 2px solid rgba(0,0,0,0.2);
+  border-left: 2px solid rgba(0,0,0,0.2);
+  pointer-events: none;
+}
+footer{
+  /* margin-bottom: -140px !important; */
+  margin-top:15%
+}
+   </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-container" id="search-container">
+      <a href="./mysite.html" id="home"> <img src="https://cdn-icons-png.freepik.com/512/5973/5973800.png?ga=GA1.1.1984617889.1710445186&" style="height:70px;width:70px; border-radius: 50%; position:absolute; left:25px;top:35px; " ></a>
+      <h1 class="my-store">MY STORE</h1>  
+      <div class="headbuttons">
+        
+        <button id="logout" style="background-color: white; color: black;">LogOut</button> 
+      </div>
+    </div>
+  </header>
+
+  <button id="clear" class="product-buy">Clear</button>
+ 
+
+  <!-- Bootstrap Cards -->
+  <div class="container">
+    <div class="row" id="bootstrap-cards">
+    </div>
+  </div>
+
+  <script>
+    
+    
+    let products = {
+      data: [
+        {
+          id: 1,
+          productName: "Regular White T-Shirt",
+          category: "Topwear",
+          price: "30",
+          image: "white-tshirt.jpg",
+        },
+        {
+          id: 2,
+          productName: "Beige Short Skirt",
+          category: "Bottomwear",
+          price: "49",
+          image: "short-skirt.jpg",
+        },
+        {
+          id: 3,
+          productName: "Sporty SmartWatch",
+          category: "Watch",
+          price: "99",
+          image: "sporty-smartwatch.jpg",
+        },
+        {
+          id: 4,
+          productName: "Basic Knitted Top",
+          category: "Topwear",
+          price: "29",
+          image: "knitted-top.jpg",
+        },
+        {
+          id: 5,
+          productName: "Black Leather Jacket",
+          category: "Jacket",
+          price: "129",
+          image: "black-leather-jacket.jpg",
+        },
+        {
+          id: 6,
+          productName: "Stylish Pink Trousers",
+          category: "Bottomwear",
+          price: "89",
+          image: "pink-trousers.jpg",
+        },
+        {
+          id: 7,
+          productName: "Brown Men's Jacket",
+          category: "Jacket",
+          price: "189",
+          image: "brown-jacket.jpg",
+        },
+        {
+          id: 8,
+          productName: "Comfy Gray Pants",
+          category: "Bottomwear",
+          price: "49",
+          image: "comfy-gray-pants.jpg",
+        },
+      ],
+    };
+
+    let btn = document.getElementById("clear");
+    btn.addEventListener("click", () => {
+      localStorage.removeItem("cart");
+      location.reload();
+    });
+
+    let cartgetting = localStorage.getItem("cart");
+    console.log(cartgetting);
+    cartgetting == null ? (cartgetting = []) : (cartgetting = JSON.parse(cartgetting));
+
+    let divget = document.getElementById("div");
+
+    cartgetting.map((val, ind) => {
+      let bootstrapCards = document.getElementById("bootstrap-cards");
+
+      let card = document.createElement("div");
+      card.className = "col-md-4";
+
+      let cardContent = `
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="${val.image}" class="img-fluid rounded-start" alt="Product Image">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">${val.productName}</h5>
+                <p class="card-text">Category: ${val.category}</p>
+                <p class="card-text">Price: $${val.price}</p>
+               
+                <p class="card-text">qty:</p>
+                <div class="button-settings">
+                <button class="product-buy remove-btn">Remove</button>
+                <button class="product-buy btnbuy" >buy now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+
+      card.innerHTML = cardContent;
+      bootstrapCards.appendChild(card);
+
+  
+  // let plusButtons = document.querySelectorAll(".plus");
+  // let minusButtons = document.querySelectorAll(".minus");
+  // let quantityDisplays = document.querySelectorAll(".num");
+  
+  // plusButtons.forEach((plusButton, index) => {
+  //   plusButton.addEventListener("click", () => {
+  //     let quantity = parseInt(quantityDisplays[index].innerText);
+  //     quantity++;
+  //     quantityDisplays[index].innerText = quantity < 10 ? "0" + quantity : quantity;
+  //   });
+  // });
+  
+  // minusButtons.forEach((minusButton, index) => {
+  //   minusButton.addEventListener("click", () => {
+  //     let quantity = parseInt(quantityDisplays[index].innerText);
+  //     if (quantity > 1) {
+  //       quantity--;
+  //       quantityDisplays[index].innerText = quantity < 10 ? "0" + quantity : quantity;
+  //     }
+  //   });
+  // });
+  
+
+
+
+      let removeBtn = card.querySelector('.remove-btn');
+      removeBtn.addEventListener("click", () => {
+        cartgetting.splice(ind, 1);
+        localStorage.setItem("cart", JSON.stringify(cartgetting));
+        bootstrapCards.removeChild(card);
+      });
+      let btnbuy=card.querySelector('.btnbuy');
+      btnbuy.addEventListener("click",()=>{window.location.assign("./buyy.html")})
+    });
+    let logout=document.getElementById("logout")
+       logout.addEventListener("click",()=>{
+       window.location.assign("index.html")
+});
+
+  </script>
+</body>
+<footer>
+  <div class="footer-nav">
+      <ul class="footer-nav-list">
+
+        <li class="footer-nav-item">
+          <h2 class="nav-title">Popular Categories</h2>
+        </li>
+
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Fashion</a>
+        </li>
+
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Electronic</a>
+        </li>
+
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Cosmetic</a>
+        </li>
+
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Health</a>
+        </li>
+
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Watches</a>
+        </li>
+
+      </ul>
+
+      <ul class="footer-nav-list">
+      
+        <li class="footer-nav-item">
+          <h2 class="nav-title">Products</h2>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Prices drop</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">New products</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Best sales</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Contact us</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Sitemap</a>
+        </li>
+      
+      </ul>
+
+      <ul class="footer-nav-list">
+      
+        <li class="footer-nav-item">
+          <h2 class="nav-title">Our Company</h2>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Delivery</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Legal Notice</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Terms and conditions</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">About us</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Secure payment</a>
+        </li>
+      
+      </ul>
+
+      <ul class="footer-nav-list">
+      
+        <li class="footer-nav-item">
+          <h2 class="nav-title">Services</h2>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Prices drop</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">New products</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Best sales</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Contact us</a>
+        </li>
+      
+        <li class="footer-nav-item">
+          <a href="#" class="footer-nav-link">Sitemap</a>
+        </li>
+      
+      </ul>
+
+      <ul class="footer-nav-list">
+
+        <li class="footer-nav-item">
+          <h2 class="nav-title">Contact</h2>
+        </li>
+
+        <li class="footer-nav-item flex">
+          <div class="icon-box">
+            <ion-icon name="location-outline"></ion-icon>
+          </div>
+
+          <address class="content">
+            419 State 414 Rte
+            Beaver Dams, New York(NY), 14812, USA
+          </address>
+        </li>
+
+        <li class="footer-nav-item flex">
+          <div class="icon-box">
+            <ion-icon name="call-outline"></ion-icon>
+          </div>
+
+          <a href="tel:+607936-8058" class="footer-nav-link">(607) 936-8058</a>
+        </li>
+
+        <li class="footer-nav-item flex">
+          <div class="icon-box">
+            <ion-icon name="mail-outline"></ion-icon>
+          </div>
+
+          <a href="mailto:example@gmail.com" class="footer-nav-link">example@gmail.com</a>
+        </li>
+
+      </ul>
+
+      <ul class="footer-nav-list">
+        <li class="footer-nav-item">
+          <h2 class="nav-title">Follow Us</h2>
+        </li>        
+                <i class='bx bxl-twitter' style="font-size:20px;"></i>             
+                <i class='bx bxl-facebook' style="font-size:20px;" ></i>          
+                <i class='bx bxl-youtube'style="font-size:20px;" ></i> 
+                <i class='bx bxl-linkedin'style="font-size:20px;" ></i>
+      </ul>  
+  </div>
+  <div class="footer-bottom">
+      <p class="copyright">
+        Copyright &copy; <a href="#">Anon</a> all rights reserved.
+      </p>
+  </div>
+</footer>
+
+</html>
